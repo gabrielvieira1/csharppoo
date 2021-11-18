@@ -13,13 +13,28 @@ namespace _01_ByteBank
       Cliente cliente = new Cliente();
       cliente.Nome = "Gabriel";
 
-      ContaCorrente conta = new ContaCorrente();
+      ContaCorrente conta = new ContaCorrente(123, 231123);
       conta.Titular = cliente;
       conta.Agencia = 847;
       conta.Numero = 8476270;
 
-      Console.WriteLine(conta.Saldo);
+      Cliente cliente1 = new Cliente();
+      cliente1.Nome = "Gabriel Vieira";
+
+      ContaCorrente conta1 = new ContaCorrente(123, 231123);
+      conta1.Titular = cliente1;
+      conta1.Agencia = 847;
+      conta1.Numero = 8476270;
+
       Console.WriteLine(conta.Titular.Nome);
+      Console.WriteLine(conta.Agencia);
+      Console.WriteLine(conta.Numero);
+      Console.WriteLine(conta.Saldo);
+      Console.WriteLine(conta1.Titular.Nome);
+      Console.WriteLine(conta1.Agencia);
+      Console.WriteLine(conta1.Numero);
+      Console.WriteLine(conta1.Saldo);
+      Console.WriteLine(ContaCorrente.TotalDeContasCriadas);
 
       Console.ReadLine();
     }
