@@ -13,10 +13,10 @@ namespace ByteBank
     {
       try
       {
-        TestaDivisao(0);
+        //TestaDivisao(0);
         //TestaArgumentException();
         //TestaInnerException();
-        //CarregarContas();
+        CarregarContas();
       }
       catch (DivideByZeroException ex)
       {
@@ -54,12 +54,12 @@ namespace ByteBank
 
     private static void CarregarContas()
     {
-      //using (LeitorDeArquivo leitor = new LeitorDeArquivo("teste.txt"))
-      //{
-      //  leitor.LerProximaLinha();
-      //  leitor.LerProximaLinha();
-      //  leitor.LerProximaLinha();
-      //}
+      using (LeitorDeArquivo leitor1 = new LeitorDeArquivo("teste.txt"))
+      {
+        leitor1.LerProximaLinha();
+        leitor1.LerProximaLinha();
+        leitor1.LerProximaLinha();
+      }
 
       LeitorDeArquivo leitor = null;
       try

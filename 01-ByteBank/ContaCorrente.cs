@@ -14,11 +14,20 @@ namespace ByteBank
 
     public Cliente Titular { get; set; }
 
-    public int ContadorSaquesNaoPermitidos { get; private set; }
     public int ContadorTransferenciasNaoPermitidas { get; private set; }
+
+    private readonly int _numero;
+    public int Numero2
+    {
+      get
+      {
+        return _numero;
+      }
+    }
 
     public int Numero { get; }
     public int Agencia { get; }
+    public int ContadorSaquesNaoPermitidos { get; private set; }
 
     private double _saldo = 100;
     public double Saldo
