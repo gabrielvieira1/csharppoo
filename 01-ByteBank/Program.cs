@@ -1,42 +1,115 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace _01_ByteBank
+namespace ByteBank
 {
   class Program
   {
     static void Main(string[] args)
     {
-      Cliente cliente = new Cliente();
-      cliente.Nome = "Gabriel";
+      try
+      {
+        TestaDivisao(0);
+        //TestaArgumentException();
+        //TestaInnerException();
+        //CarregarContas();
+      }
+      catch (DivideByZeroException ex)
+      {
+        Console.WriteLine(ex.Message);
+        Console.WriteLine(ex.StackTrace);
+        Console.WriteLine("Não é possível divisão por 0!");
+      }
+      catch (ArgumentException ex)
+      {
+        Console.WriteLine("Argumento com problema: " + ex.ParamName);
+        Console.WriteLine("Ocorreu uma exceção do tipo ArgumentException.");
+        Console.WriteLine(ex.Message);
+      }
+      catch (OperacaoFinanceiraException ex)
+      {
+        Console.WriteLine(ex.Message);
+        Console.WriteLine(ex.StackTrace);
 
-      ContaCorrente conta = new ContaCorrente(123, 231123);
-      conta.Titular = cliente;
-      conta.Agencia = 847;
-      conta.Numero = 8476270;
+        Console.WriteLine("Informações da INNER EXCEPTION (exceção interna):");
 
-      Cliente cliente1 = new Cliente();
-      cliente1.Nome = "Gabriel Vieira";
-
-      ContaCorrente conta1 = new ContaCorrente(123, 231123);
-      conta1.Titular = cliente1;
-      conta1.Agencia = 847;
-      conta1.Numero = 8476270;
-
-      Console.WriteLine(conta.Titular.Nome);
-      Console.WriteLine(conta.Agencia);
-      Console.WriteLine(conta.Numero);
-      Console.WriteLine(conta.Saldo);
-      Console.WriteLine(conta1.Titular.Nome);
-      Console.WriteLine(conta1.Agencia);
-      Console.WriteLine(conta1.Numero);
-      Console.WriteLine(conta1.Saldo);
-      Console.WriteLine(ContaCorrente.TotalDeContasCriadas);
-
+        Console.WriteLine(ex.InnerException.Message);
+        Console.WriteLine(ex.InnerException.StackTrace);
+      }
+      catch (IOException)
+      {
+        Console.WriteLine("Exceção do tipo IOException capturada e tratada!");
+      }
+      catch (Exception ex)
+      {
+        Console.WriteLine(ex.Message);
+        Console.WriteLine(ex.StackTrace);
+      }
       Console.ReadLine();
+    }
+
+    private static void CarregarContas()
+    {
+      //using (LeitorDeArquivo leitor = new LeitorDeArquivo("teste.txt"))
+      //{
+      //  leitor.LerProximaLinha();
+      //  leitor.LerProximaLinha();
+      //  leitor.LerProximaLinha();
+      //}
+
+      LeitorDeArquivo leitor = null;
+      try
+      {
+        leitor = new LeitorDeArquivo("contasl.txt");
+
+        leitor.LerProximaLinha();
+        leitor.LerProximaLinha();
+        leitor.LerProximaLinha();
+      }
+      finally
+      {
+        if (leitor != null)
+        {
+          leitor.Fechar();
+        }
+      }
+    }
+
+    private static void TestaArgumentException()
+    {
+      ContaCorrente conta1 = new ContaCorrente(0, 789684);
+      //ContaCorrente conta2 = new ContaCorrente(7891, 0);
+    }
+
+    private static void TestaInnerException()
+    {
+        ContaCorrente conta1 = new ContaCorrente(4564, 789684);
+        ContaCorrente conta2 = new ContaCorrente(7891, 456794);
+
+        conta1.Transferir(10000, conta2);
+    }
+
+    private static void TestaDivisao(int divisor)
+    {
+      int resultado = Dividir(10, divisor);
+      Console.WriteLine("Resultado da divisão de 10 por " + divisor + " é " + resultado);
+    }
+
+    private static int Dividir(int numero, int divisor)
+    {
+      try
+      {
+        return numero / divisor;
+      }
+      catch (DivideByZeroException)
+      {
+        Console.WriteLine("Exceção com numero = " + numero + " e divisor = " + divisor);
+        throw;
+      }
     }
   }
 }
